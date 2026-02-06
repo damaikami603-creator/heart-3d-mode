@@ -3,75 +3,85 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Healthy Heart vs Heart Failure – 3D Comparison</title>
+  <title>3D Healthy Heart vs Heart Failure</title>
   <style>
     body {
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #0a1929;
-      color: #e0f0ff;
+      font-family: system-ui, sans-serif;
+      background: #0d1421;
+      color: #e0f2ff;
       overflow: hidden;
-    }
-    #container {
-      position: absolute;
-      inset: 0;
     }
     #ui {
       position: absolute;
       top: 20px;
       left: 20px;
-      z-index: 100;
-      background: rgba(20, 40, 70, 0.7);
-      backdrop-filter: blur(6px);
-      padding: 16px 24px;
+      z-index: 10;
+      background: rgba(15, 35, 65, 0.75);
+      backdrop-filter: blur(8px);
+      padding: 1.2rem 1.8rem;
       border-radius: 12px;
-      border: 1px solid #3a5a8a;
+      border: 1px solid #456;
+      max-width: 380px;
     }
     h1 {
-      margin: 0 0 12px 0;
-      font-size: 1.5rem;
-      color: #a0d0ff;
+      margin: 0 0 0.9rem;
+      font-size: 1.6rem;
+      color: #a0d8ff;
     }
     button {
-      padding: 10px 18px;
-      margin-right: 12px;
-      background: #2a5580;
+      padding: 0.7rem 1.3rem;
+      margin: 0 0.6rem 0.6rem 0;
+      background: #2a5a8a;
       color: white;
       border: none;
       border-radius: 8px;
       cursor: pointer;
       font-size: 1rem;
-      transition: all 0.2s;
+      transition: 0.22s;
     }
-    button:hover {
-      background: #3a78b8;
-    }
+    button:hover { background: #3a7ac8; }
     button.active {
       background: #4fc3f7;
       color: #0d1b2a;
     }
     #info {
-      margin-top: 16px;
-      font-size: 0.92rem;
-      line-height: 1.5;
-      max-width: 380px;
+      font-size: 0.94rem;
+      line-height: 1.45;
+      margin-top: 1rem;
+      opacity: 0.92;
+    }
+    #credits {
+      position: absolute;
+      bottom: 12px;
+      left: 20px;
+      font-size: 0.78rem;
+      opacity: 0.7;
+      z-index: 5;
     }
   </style>
 </head>
 <body>
 
-<div id="container"></div>
-
 <div id="ui">
-  <h1>Heart Comparison 3D</h1>
-  <button id="btn-healthy" class="active">Healthy Heart</button>
+  <h1>Heart 3D Comparison</h1>
+  <button id="btn-healthy" class="active">Healthy</button>
   <button id="btn-failure">Heart Failure</button>
 
   <div id="info">
-    <strong>Healthy heart</strong> → normal size, strong contraction<br>
-    <strong>Heart failure</strong> (dilated cardiomyopathy style) → enlarged, thinner walls, weaker pump
+    <strong>Healthy heart</strong><br>
+    • Normal size & shape<br>
+    • Strong contraction<br>
+    • Good ejection fraction (~60%)<br><br>
+
+    <strong>Heart failure</strong> (dilated type)<br>
+    • Enlarged chambers<br>
+    • Thinner walls<br>
+    • Weakened pumping
   </div>
 </div>
+
+<div id="credits">Procedural model • Three.js • GitHub Pages</div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.168.0/examples/js/controls/OrbitControls.min.js"></script>
@@ -79,137 +89,109 @@
 <script>
 // ────────────────────────────────────────────────
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x0b1624);
+scene.background = new THREE.Color(0x091220);
 
-const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.1, 100);
-camera.position.set(0, 1.2, 3.8);
+const camera = new THREE.PerspectiveCamera(52, innerWidth/innerHeight, 0.1, 50);
+camera.position.set(0, 0.8, 4.2);
 
-const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+const renderer = new THREE.WebGLRenderer({antialias:true});
 renderer.setSize(innerWidth, innerHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
-document.getElementById('container').appendChild(renderer.domElement);
+renderer.setPixelRatio(devicePixelRatio);
+document.body.appendChild(renderer.domElement);
 
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
-controls.dampingFactor = 0.07;
-controls.minDistance = 1.8;
-controls.maxDistance = 8;
-controls.maxPolarAngle = Math.PI * 0.92;
+controls.dampingFactor = 0.085;
+controls.minDistance = 1.6;
+controls.maxDistance = 9;
 
-// ─── Lights ─────────────────────────────────────
-const ambient = new THREE.AmbientLight(0xffffff, 0.5);
-scene.add(ambient);
+// Lights
+scene.add(new THREE.AmbientLight(0xffffff, 0.55));
 
-const keyLight = new THREE.DirectionalLight(0xfff8e8, 1.4);
-keyLight.position.set(5, 8, 6);
-scene.add(keyLight);
+const key = new THREE.DirectionalLight(0xfff9e8, 1.6);
+key.position.set(6, 10, 7);
+scene.add(key);
 
-const fillLight = new THREE.DirectionalLight(0xaaccee, 0.7);
-fillLight.position.set(-6, 4, -5);
-scene.add(fillLight);
+const rim = new THREE.DirectionalLight(0xaaccff, 0.9);
+rim.position.set(-5, 6, -8);
+scene.add(rim);
 
-// ─── Heart geometry helper ──────────────────────
-function createHeart(scale = 1, color = 0xe63946, emissive = 0x4a0010) {
+// ─── Heart factory ───────────────────────────────
+function createHeart(options = {}) {
+  const {
+    scale         = 1,
+    color         = 0xe63946,
+    emissive      = 0x3a0f18,
+    dilation      = 1,      // 1 = normal, >1 = enlarged
+    wallThickness = 1,      // relative
+  } = options;
+
   const group = new THREE.Group();
 
-  // very simplified heart (two ventricles + atria approximation)
   const mat = new THREE.MeshStandardMaterial({
     color,
     emissive,
-    emissiveIntensity: 0.25,
-    metalness: 0.15,
-    roughness: 0.65,
+    emissiveIntensity: 0.28,
+    metalness: 0.12,
+    roughness: 0.68,
   });
 
-  // main body (left + right ventricle approx)
-  const mainGeo = new THREE.SphereGeometry(1, 32, 24);
-  const main = new THREE.Mesh(mainGeo, mat);
-  main.scale.set(1.15 * scale, 1.35 * scale, 0.95 * scale);
+  // Main ventricular mass
+  const main = new THREE.Mesh(
+    new THREE.SphereGeometry(1, 36, 28),
+    mat
+  );
+  main.scale.set(1.18 * dilation, 1.42 * dilation, 1.05 * dilation);
   group.add(main);
 
-  // "bulge" for left ventricle dominance
-  const lvGeo = new THREE.SphereGeometry(0.92, 28, 20);
-  const lv = new THREE.Mesh(lvGeo, mat);
-  lv.position.set(0.35 * scale, 0.1 * scale, 0);
-  lv.scale.set(1.1, 1.25, 0.9);
+  // Left ventricle emphasis
+  const lv = new THREE.Mesh(
+    new THREE.SphereGeometry(0.95, 32, 24),
+    mat
+  );
+  lv.position.set(0.4 * dilation, 0.05, -0.1);
+  lv.scale.set(1.15 * dilation, 1.38 * dilation, 1.0);
   group.add(lv);
 
-  // atria (simplified)
-  const atriaGeo = new THREE.SphereGeometry(0.68, 24, 16);
-  const atria = new THREE.Mesh(atriaGeo, mat);
-  atria.position.y = 1.05 * scale;
-  atria.scale.set(1.4, 0.65, 1.1);
+  // Atria (simplified)
+  const atria = new THREE.Mesh(
+    new THREE.SphereGeometry(0.72, 28, 20),
+    mat
+  );
+  atria.position.y = 1.15 * dilation;
+  atria.scale.set(1.55, 0.7 * wallThickness, 1.25);
   group.add(atria);
 
-  // slight rotation so it looks more heart-like
-  group.rotation.z = -0.25;
-  group.rotation.y = 0.4;
+  // Slight realistic tilt
+  group.rotation.z = -0.28;
+  group.rotation.y = 0.42;
+
+  group.userData.baseScale = scale;
 
   return group;
 }
 
-// ─── Create both models ─────────────────────────
-const healthy = createHeart(1.0, 0xe63946, 0x3f0b14);
+// ─── Models ─────────────────────────────────────
+const healthy = createHeart({
+  scale: 1,
+  color: 0xed254e,
+  emissive: 0x3f0915
+});
 healthy.visible = true;
 scene.add(healthy);
 
-const failure = createHeart(1.0, 0xd00000, 0x5c0010);
-failure.scale.set(1.35, 1.35, 1.35);           // dilated
-failure.position.y = -0.25;                     // slightly lower
+const failure = createHeart({
+  scale: 1,
+  color: 0xd00000,
+  emissive: 0x55000a,
+  dilation: 1.38,         // visibly enlarged
+  wallThickness: 0.78     // slightly thinner feel
+});
 failure.visible = false;
 scene.add(failure);
 
-// ─── Animation: subtle beating ──────────────────
-let time = 0;
-const beatAmplitudeHealthy = 0.04;
-const beatAmplitudeFail   = 0.018;   // weaker contraction
-
-function animate() {
-  requestAnimationFrame(animate);
-  time += 0.016;
-
-  const beat = Math.sin(time * 5) * 0.5 + 0.5; // 0..1
-
-  // healthy
-  const sH = 1 + beat * beatAmplitudeHealthy;
-  healthy.scale.set(sH, sH, sH * 0.96);
-
-  // failure — weaker & slower beat
-  const sF = 1 + beat * beatAmplitudeFail * 0.7;
-  failure.scale.set(sF * 1.35, sF * 1.35, sF * 1.35 * 0.94);
-
-  controls.update();
-  renderer.render(scene, camera);
-}
-animate();
-
-// ─── UI toggle ──────────────────────────────────
-const btnHealthy  = document.getElementById('btn-healthy');
-const btnFailure  = document.getElementById('btn-failure');
-
-function showHealthy() {
-  healthy.visible = true;
-  failure.visible = false;
-  btnHealthy.classList.add('active');
-  btnFailure.classList.remove('active');
-}
-
-function showFailure() {
-  healthy.visible = false;
-  failure.visible = true;
-  btnHealthy.classList.remove('active');
-  btnFailure.classList.add('active');
-}
-
-btnHealthy.onclick  = showHealthy;
-btnFailure.onclick  = showFailure;
-
-// resize handler
-window.addEventListener('resize', () => {
-  camera.aspect = innerWidth / innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth, innerHeight);
-});
-</script>
-</body>
-</html>
+// ─── Gentle beating animation ───────────────────
+let t = 0;
+const freqHealthy = 5.1;
+const ampHealthy  = 0.045;
+const freqFail    = 4.4;     // slightly slower & irregular
