@@ -1,136 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>3D Heart Model – Three.js</title>
-  <style>
-    body { margin: 0; overflow: hidden; background: #000814; font-family: Arial, sans-serif; }
-    #info {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      color: #e9ecef;
-      background: rgba(0,0,0,0.5);
-      padding: 12px 18px;
-      border-radius: 8px;
-      pointer-events: none;
-      user-select: none;
-      font-size: 0.95rem;
-    }
-    a { color: #4cc9f0; text-decoration: none; }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>3D Human Heart</title>
+  <meta name="description" content="Interactive 3D Human Heart model">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<div id="info">
-  3D Heart • Three.js<br>
-  Drag to rotate • Scroll to zoom
-</div>
+  <header>
+    <h1>Human Heart</h1>
+    <p>Interactive 3D Model</p>
+  </header>
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.168.0/examples/js/controls/OrbitControls.min.js"></script>
+  <!-- 3D Viewer -->
+  <section id="viewer">
+    <div id="canvas-container">
+      <canvas id="heartCanvas"></canvas>
+    </div>
+    <div class="branding">
+      <span>powered by</span>
+      <img src="rahatam_logo.png" alt="Rahatam Logo">
+    </div>
+  </section>
 
-<script>
-// ────────────────────────────────────────────────
-// Scene setup
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x000814);
+  <!-- Info Section -->
+  <section id="info" class="info-box">
+    <h2>About the Human Heart</h2>
 
-const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 100);
-camera.position.set(0, 0, 8);
+    <p>
+      The human heart is a muscular organ that works as a pump.
+      It circulates blood throughout the body to supply oxygen
+      and nutrients and to remove waste materials.
+    </p>
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(innerWidth, innerHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
-document.body.appendChild(renderer.domElement);
+    <p>
+      The heart is about the size of a closed fist and is located
+      slightly towards the left side of the chest, between the lungs.
+    </p>
 
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.06;
-controls.minDistance = 3;
-controls.maxDistance = 18;
+    <h3>Structure of the Heart</h3>
+    <ul>
+      <li>🫀 The heart has four chambers</li>
+      <li>➡️ Two upper chambers: Right Atrium and Left Atrium</li>
+      <li>⬇️ Two lower chambers: Right Ventricle and Left Ventricle</li>
+    </ul>
 
-// ─── Lights ─────────────────────────────────────
-scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+    <h3>Functions of the Heart</h3>
+    <ul>
+      <li>❤️ Pumps blood continuously throughout life</li>
+      <li>🩸 Supplies oxygen-rich blood to the body</li>
+      <li>🔄 Removes carbon dioxide and other waste materials</li>
+    </ul>
+  </section>
 
-const keyLight = new THREE.DirectionalLight(0xfff5e1, 1.8);
-keyLight.position.set(5, 8, 6);
-scene.add(keyLight);
+  <!-- Labelled Diagram Section -->
+  <section id="diagram">
+    <h2>Labelled Diagram Of Human Heart</h2>
+    <div class="diagram-container">
+      <img src="heart label.png" alt="Labelled Heart Diagram">
+    </div>
+  </section>
 
-const rimLight = new THREE.DirectionalLight(0xaaccee, 1.1);
-rimLight.position.set(-6, 5, -7);
-scene.add(rimLight);
+  <!-- Heart Attack Info Section -->
+  <section id="heart-attack" class="info-box">
+    <h2>Heart Attack</h2>
+    <p>
+      A heart attack happens when the blood flow to a part of the heart muscle is suddenly blocked.
+      Because the heart does not get enough oxygen, the muscle begins to get damaged or die if treatment is delayed.
+    </p>
 
-// ─── Heart Shape ────────────────────────────────
-const heartShape = new THREE.Shape();
+    <h3>Why Does a Heart Attack Occur?</h3>
+    <p>The most common cause is blockage in the coronary arteries, which supply blood to the heart. This blockage
+      usually happens due to:</p>
+    <ul>
+      <li>🔴 Build-up of fat, cholesterol, and plaque inside arteries</li>
+      <li>🩸 Blood clot formation over a plaque</li>
+      <li>📈 High blood pressure damaging artery walls</li>
+      <li>🚬 Smoking, which narrows blood vessels</li>
+      <li>⚖️ Diabetes and obesity</li>
+      <li>🧘 High stress and lack of physical activity</li>
+    </ul>
 
-heartShape.moveTo(0, 3);
-heartShape.bezierCurveTo(0, 3,      0, 0,     -3, 0);
-heartShape.bezierCurveTo(-6, 0,    -6, 4.5,   -6, 4.5);
-heartShape.bezierCurveTo(-6, 7.5,  -2, 9.5,    0, 11);
-heartShape.bezierCurveTo( 2, 9.5,   6, 7.5,    6, 4.5);
-heartShape.bezierCurveTo( 6, 4.5,   6, 0,      3, 0);
-heartShape.bezierCurveTo( 0, 0,     0, 3,      0, 3);
+    <h3>Preventive Measures</h3>
+    <p>Many heart attacks can be prevented by adopting a healthy lifestyle:</p>
+    <ul>
+      <li>🫀 Eat a heart-healthy diet (low fat, low salt, more fruits & vegetables)</li>
+      <li>🏃 Exercise regularly (at least 30 minutes a day)</li>
+      <li>🚭 Avoid smoking and tobacco</li>
+      <li>⚖️ Maintain a healthy weight</li>
+      <li>🧘 Manage stress properly</li>
+      <li>🩺 Control blood pressure, cholesterol, and diabetes</li>
+      <li>😴 Get enough sleep</li>
+    </ul>
+  </section>
 
-// ─── Extrude into 3D ────────────────────────────
-const extrudeSettings = {
-  depth: 1.2,
-  bevelEnabled: true,
-  bevelSegments: 8,
-  steps: 5,
-  bevelSize: 0.6,
-  bevelThickness: 0.8,
-  curveSegments: 12
-};
+  <!-- THREE.JS -->
+  <script src="https://unpkg.com/three@0.146.0/build/three.min.js"></script>
+  <script src="https://unpkg.com/three@0.146.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://unpkg.com/three@0.146.0/examples/js/loaders/GLTFLoader.js"></script>
 
-const geometry = new THREE.ExtrudeGeometry(heartShape, extrudeSettings);
-geometry.center();                // center the model
-geometry.rotateX(Math.PI);        // flip so the nice side faces camera
+  <script src="script.js"></script>
 
-const material = new THREE.MeshStandardMaterial({
-  color: 0xe63946,
-  emissive: 0x30000a,
-  emissiveIntensity: 0.35,
-  metalness: 0.08,
-  roughness: 0.55
-});
 
-const heart = new THREE.Mesh(geometry, material);
-scene.add(heart);
-
-// Optional: add subtle wireframe
-const wireMat = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.12 });
-const wire = new THREE.Mesh(geometry, wireMat);
-heart.add(wire);
-
-// ─── Animation: gentle beating + rotation ───────
-let time = 0;
-
-function animate() {
-  requestAnimationFrame(animate);
-  time += 0.016;
-
-  // Gentle pulsing scale
-  const pulse = Math.sin(time * 5.8) * 0.5 + 0.5; // 0…1
-  const scale = 1 + pulse * 0.08;
-  heart.scale.set(scale, scale, scale * 0.96);     // slightly squash z for realism
-
-  // Slow rotation
-  heart.rotation.y += 0.0035;
-
-  controls.update();
-  renderer.render(scene, camera);
-}
-
-animate();
-
-// ─── Resize handler ─────────────────────────────
-window.addEventListener('resize', () => {
-  camera.aspect = innerWidth / innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth, innerHeight);
-});
-</script>
 </body>
+
 </html>
