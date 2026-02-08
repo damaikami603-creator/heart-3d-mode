@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Heart Facts Quiz</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #e2e8f0;
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(8px);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    h1 {
+      text-align: center;
+      color: #86efac;
+      margin-bottom: 12px;
+      font-size: 2.6rem;
+      text-shadow: 0 2px 10px rgba(134,239,172,0.3);
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #94a3b8;
+      margin-bottom: 40px;
+      font-size: 1.1rem;
+    }
+
+    .question {
+      margin-bottom: 36px;
+      padding: 24px;
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 12px;
+      border: 1px solid rgba(134,239,172,0.15);
+    }
+
+    .question h3 {
+      margin: 0 0 16px 0;
+      color: #cbd5e1;
+      font-size: 1.25rem;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      background: rgba(51,65,85,0.4);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+    }
+
+    label:hover {
+      background: rgba(51,65,85,0.6);
+      border-color: rgba(134,239,172,0.3);
+    }
+
+    input[type="radio"] {
+      accent-color: #86efac;
+      width: 20px;
+      height: 20px;
+    }
+
+    button {
+      display: block;
+      margin: 40px auto 20px;
+      padding: 16px 48px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      background: linear-gradient(90deg, #16a34a, #22c55e);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(34,197,94,0.35);
+      transition: all 0.3s;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(34,197,94,0.5);
+    }
+
+    #result {
+      text-align: center;
+      font-size: 1.5rem;
+      margin: 30px 0;
+      padding: 20px;
+      border-radius: 12px;
+      display: none;
+    }
+
+    .correct { background: rgba(34,197,94,0.2); color: #86efac; }
+    .incorrect { background: rgba(239,68,68,0.2); color: #fca5a5; }
+
+    .answer-key {
+      margin-top: 40px;
+      padding: 20px;
+      background: rgba(15,23,42,0.6);
+      border-radius: 12px;
+      display: none;
+    }
+
+    .answer-key h2 {
+      color: #cbd5e1;
+      margin-bottom: 20px;
+    }
+
+    .answer-item {
+      margin-bottom: 16px;
+    }
+
+    .answer-item strong {
+      color: #86efac;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      color: #64748b;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>❤️ Heart Facts Quiz</h1>
+  <p class="subtitle">How much do you really know about your amazing heart? Test yourself with 10 fun questions!</p>
+
+  <form id="quizForm">
+
+    <div class="question">
+      <h3>1. About how many times does a healthy adult heart beat per day?</h3>
+      <div class="options">
+        <label><input type="radio" name="q1" value="a"> ≈ 30,000</label>
+        <label><input type="radio" name="q1" value="b"> ≈ 100,000</label>
+        <label><input type="radio" name="q1" value="c"> ≈ 500,000</label>
+        <label><input type="radio" name="q1" value="d"> ≈ 1,000,000</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <h3>2. How many chambers does the human heart have?</h3>
+      <div class="options">
+        <label><input type="radio" name="q2" value="a"> 2</label>
+        <label><input type="radio" name="q2" value="b"> 3</label>
+        <label><input type="radio" name="q2" value="c"> 4</label>
+        <label><input type="radio" name="q2" value="d"> 6</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <h3>3. The heart is roughly the size of...</h3>
+      <div class="options">
+        <label><input type="radio" name="q3" value="a"> your brain</label>
+        <label><input type="radio" name="q3" value="b"> your fist (or two fists together)</label>
+        <label><input type="radio" name="q3" value="c"> a grapefruit</label>
+        <label><input type="radio" name="q3" value="d"> a football</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <h3>4. How much blood does the heart pump in one day (approx.)?</h3>
+      <div class="options">
+        <label><input type="radio" name="q4" value="a"> 50–100 gallons</label>
+        <label><input type="radio" name="q4" value="b"> 500–1,000 gallons</label>
+        <label><input type="radio" name="q4" value="c"> ≈ 2,000 gallons</label>
+        <label><input type="radio" name="q4" value="d"> 10,000+ gallons</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <h3>5. The heart is located...</h3>
+      <div class="options">
+        <label><input type="radio" name="q5" value="a"> completely on the left side of the chest</label>
+        <label><input type="radio" name="q5" value="b"> almost in the center, tilted toward the left</label>
+        <label><input type="radio" name="q5" value="c"> mostly on the right side</label>
+        <label><input type="radio" name="q5" value="d"> directly behind the sternum with no tilt</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <h3>6. On average, women's hearts beat...</h3>
+      <div class="options">
+        <label><input type="radio" name="q6" value="a"> slower than men's</label>
+        <label><input type="radio" name="q6" value="b"> about 8 beats per minute faster than men's</label>
+        <label><input type="radio" name="q6" value="c"> at exactly the same rate as men's</label>
+        <label><input type="radio" name="q6" value="d"> much faster only during pregnancy</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <h3>7. The "lub-dub" sound of the heartbeat is caused by...</h3>
+      <div class="options">
+        <label><input type="radio" name="q7" value="a"> heart muscle stretching</label>
+        <label><input type="radio" name="q7" value="b"> valves opening and closing</label>
+        <label><input type="radio" name="q7" value="c"> blood hitting artery walls</label>
+        <label><input type="radio" name="q7" value="d"> electrical signals in the heart</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <h3>8. Over a lifetime, the heart pumps enough blood to fill...</h3>
+      <div class="options">
+        <label><input type="radio" name="q8" value="a"> a large bathtub</label>
+        <label><input type="radio" name="q8" value="b"> several Olympic swimming pools</label>
+        <label><input type="radio" name="q8" value="c"> about 1 million barrels</label>
+        <label><input type="radio" name="q8" value="d"> one supertanker only</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <h3>9. The heart can continue beating for a short time even when...</h3>
+      <div class="options">
+        <label><input type="radio" name="q9" value="a"> disconnected from the body (with oxygen)</label>
+        <label><input type="radio" name="q9" value="b"> completely out of blood</label>
+        <label><input type="radio" name="q9" value="c"> the brain has stopped functioning</label>
+        <label><input type="radio" name="q9" value="d"> all nerves are cut</label>
+      </div>
+    </div>
+
+    <div class="question">
+      <h3>10. Approximately how many miles of blood vessels are in the human body?</h3>
+      <div class="options">
+        <label><input type="radio" name="q10" value="a"> 5,000 miles</label>
+        <label><input type="radio" name="q10" value="b"> 20,000 miles</label>
+        <label><input type="radio" name="q10" value="c"> 60,000 miles</label>
+        <label><input type="radio" name="q10" value="d"> 100,000+ miles</label>
+      </div>
+    </div>
+
+    <button type="button" onclick="checkAnswers()">Submit Quiz →</button>
+
+  </form>
+
+  <div id="result"></div>
+
+  <div class="answer-key" id="answerKey">
+    <h2>Answer Key & Explanations</h2>
+    <div class="answer-item">1. <strong>b) ≈ 100,000</strong> — About 100,000 beats/day ≈ 2.5–3 billion in a lifetime</div>
+    <div class="answer-item">2. <strong>c) 4</strong> — Two atria (top) + two ventricles (bottom)</div>
+    <div class="answer-item">3. <strong>b) your fist (or two fists together)</strong> — Classic comparison</div>
+    <div class="answer-item">4. <strong>c) ≈ 2,000 gallons</strong> — Impressive daily volume!</div>
+    <div class="answer-item">5. <strong>b) almost in the center, tilted toward the left</strong> — Why we feel it on the left</div>
+    <div class="answer-item">6. <strong>b) about 8 beats per minute faster than men's</strong> — Due to smaller average size</div>
+    <div class="answer-item">7. <strong>b) valves opening and closing</strong> — The classic heart sound</div>
+    <div class="answer-item">8. <strong>c) about 1 million barrels</strong> — Lifetime pumping achievement</div>
+    <div class="answer-item">9. <strong>a) disconnected from the body (with oxygen)</strong> — Thanks to its own pacemaker</div>
+    <div class="answer-item">10. <strong>c) 60,000 miles</strong> — Enough to circle Earth more than twice</div>
+  </div>
+
+</div>
+
+<footer>Made with ❤️ • Heart Facts Quiz • 2026</footer>
+
+<script>
+  const correctAnswers = {
+    q1: "b",
+    q2: "c",
+    q3: "b",
+    q4: "c",
+    q5: "b",
+    q6: "b",
+    q7: "b",
+    q8: "c",
+    q9: "a",
+    q10: "c"
+  };
+
+  function checkAnswers() {
+    let score = 0;
+    const form = document.getElementById("quizForm");
+    const resultDiv = document.getElementById("result");
+    const answerKey = document.getElementById("answerKey");
+
+    for (let i = 1; i <= 10; i++) {
+      const selected = form.querySelector(`input[name="q${i}"]:checked`);
+      if (selected && selected.value === correctAnswers[`q${i}`]) {
+        score++;
+      }
+    }
+
+    let message = "";
+    let className = "";
+
+    if (score >= 9) {
+      message = `Excellent! ${score}/10 – You're a heart expert! ❤️`;
+      className = "correct";
+    } else if (score >= 7) {
+      message = `Great job! ${score}/10 – Solid heart knowledge!`;
+      className = "correct";
+    } else if (score >= 5) {
+      message = `Not bad! ${score}/10 – Keep learning about your amazing heart.`;
+      className = "";
+    } else {
+      message = `Keep studying! ${score}/10 – The heart is full of surprises!`;
+      className = "incorrect";
+    }
+
+    resultDiv.innerHTML = message;
+    resultDiv.className = className;
+    resultDiv.style.display = "block";
+
+    answerKey.style.display = "block";
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+  }
+</script>
+
+</body>
+</html>
